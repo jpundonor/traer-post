@@ -1,11 +1,14 @@
 const getPosts = async () => {
   const url = "https://jsonplaceholder.typicode.com/posts";
+  const postData = document.getElementById("post-data");
 
   try {
     const response = await fetch(url);
     const data = await response.json();
 
-    const postData = document.getElementById("post-data");
+    if(!response.ok){
+      throw new Error("Error al obtener los datos")
+    }
 
     const ul = `
         <ul>${data
@@ -22,6 +25,6 @@ const getPosts = async () => {
         `;
     postData.innerHTML = ul;
   } catch (error) {
-    console.log("Error", error);
+    postData.innerHTML = `<p>${error.message}</p>`;
   }
 };
